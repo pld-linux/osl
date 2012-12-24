@@ -1,7 +1,5 @@
-# TODO: verify gdb pretty-printers location
 #
 # Conditional build:
-%bcond_without	apidocs		# do not build and package API docs
 %bcond_without	static_libs	# don't build static libraries
 #
 Summary:	OpenScop: Structures and formats for polyhedral tools to talk together
