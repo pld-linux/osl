@@ -12,3 +12,17 @@
  @set EDITION 1.0
  @set SPEC_VERSION 1.0
  @set LIB_VERSION 0.8.4
+--- osl-0.9.0/doc/Makefile.am.orig	2014-06-03 16:13:44.000000000 +0200
++++ osl-0.9.0/doc/Makefile.am	2014-07-12 11:04:58.141316457 +0200
+@@ -114,9 +114,10 @@
+ 	images/tree.pdf				\
+ 	images/tree.txt
+ 
++info_TEXINFOS =
+ if GENERATE_DOC
+ # Unfortunately the following is not supported conditionaly
+-# info_TEXINFOS		= openscop.texi
++info_TEXINFOS += openscop.texi
+ 
+ openscop.pdf: openscop.texi			\
+ 	images/basic.pdf			\

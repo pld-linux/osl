@@ -5,15 +5,20 @@
 Summary:	OpenScop: Structures and formats for polyhedral tools to talk together
 Summary(pl.UTF-8):	OpenScop - struktury i formaty do komunikacji między narzędziami wielościanowymi
 Name:		osl
-Version:	0.8.4
+Version:	0.9.0
 Release:	1
 License:	BSD
 Group:		Libraries
-Source0:	http://www.lri.fr/~bastoul/development/openscop/docs/%{name}-%{version}.tar.gz
-# Source0-md5:	b9f0190cfc85260662cc13b6542ac4ef
-Patch0:		%{name}-info.patch
-URL:		http://www.lri.fr/~bastoul/development/openscop/
+#Source0Download: http://icps.u-strasbg.fr/~bastoul/development/openscop/
+Source0:	http://icps.u-strasbg.fr/~bastoul/development/openscop/docs/%{name}-%{version}.tar.gz
+# Source0-md5:	d1aa20732b61c5c20e153d9d850e732f
+Patch0:		%{name}-missing.patch
+Patch1:		%{name}-info.patch
+URL:		http://icps.u-strasbg.fr/~bastoul/development/openscop/
+BuildRequires:	autoconf >= 2.53
+BuildRequires:	automake
 BuildRequires:	gmp-devel
+BuildRequires:	libtool
 BuildRequires:	rpm-pythonprov
 BuildRequires:	texinfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -62,12 +67,16 @@ Statyczna biblioteka OpenScop.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
-# with_gmp_exec_prefix=yes avoids adding -L/lib to LDFLAGS
+%{__libtoolize}
+%{__aclocal} -I m4
+%{__autoconf}
+%{__automake}
 %configure \
-	--disable-silent-rules \
-	--with-gmp-exec-prefix
+	--disable-silent-rules
+
 %{__make}
 
 %install
