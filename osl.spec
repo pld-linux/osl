@@ -1,12 +1,12 @@
 #
 # Conditional build:
 %bcond_without	static_libs	# don't build static libraries
-#
+
 Summary:	OpenScop: Structures and formats for polyhedral tools to talk together
 Summary(pl.UTF-8):	OpenScop - struktury i formaty do komunikacji między narzędziami wielościanowymi
 Name:		osl
 Version:	0.9.0
-Release:	2
+Release:	3
 License:	BSD
 Group:		Libraries
 #Source0Download: http://icps.u-strasbg.fr/~bastoul/development/openscop/
@@ -90,6 +90,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
+
+%post	devel -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
+
+%postun	devel -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
 
 %files
 %defattr(644,root,root,755)
