@@ -5,13 +5,15 @@
 Summary:	OpenScop: Structures and formats for polyhedral tools to talk together
 Summary(pl.UTF-8):	OpenScop - struktury i formaty do komunikacji między narzędziami wielościanowymi
 Name:		osl
-Version:	0.9.0
-Release:	3
+Version:	0.9.2
+Release:	1
 License:	BSD
 Group:		Libraries
-#Source0Download: http://icps.u-strasbg.fr/~bastoul/development/openscop/
-Source0:	http://icps.u-strasbg.fr/~bastoul/development/openscop/docs/%{name}-%{version}.tar.gz
-# Source0-md5:	d1aa20732b61c5c20e153d9d850e732f
+##Source0Download: http://icps.u-strasbg.fr/~bastoul/development/openscop/
+#Source0:	http://icps.u-strasbg.fr/~bastoul/development/openscop/docs/%{name}-%{version}.tar.gz
+#Source0Download: https://github.com/periscop/openscop/releases
+Source0:	https://github.com/periscop/openscop/releases/download/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	21b88885dd315da02b3b054c2ce1032e
 Patch0:		%{name}-missing.patch
 Patch1:		%{name}-info.patch
 URL:		http://icps.u-strasbg.fr/~bastoul/development/openscop/
@@ -108,6 +110,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libosl.so
 %{_libdir}/libosl.la
 %{_includedir}/osl
+%dir %{_libdir}/osl
+%{_libdir}/osl/osl-config.cmake
 %{_infodir}/openscop.info*
 
 %files static
