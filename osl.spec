@@ -1,11 +1,11 @@
 #
 # Conditional build:
-%bcond_without	static_libs	# don't build static libraries
+%bcond_without	static_libs	# static library
 
 Summary:	OpenScop: Structures and formats for polyhedral tools to talk together
 Summary(pl.UTF-8):	OpenScop - struktury i formaty do komunikacji między narzędziami wielościanowymi
 Name:		osl
-Version:	0.9.2
+Version:	0.9.7
 Release:	1
 License:	BSD
 Group:		Libraries
@@ -13,14 +13,14 @@ Group:		Libraries
 #Source0:	http://icps.u-strasbg.fr/~bastoul/development/openscop/docs/%{name}-%{version}.tar.gz
 #Source0Download: https://github.com/periscop/openscop/releases
 Source0:	https://github.com/periscop/openscop/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	21b88885dd315da02b3b054c2ce1032e
+# Source0-md5:	f833e4186d4af2402fcbf8e104306ab6
 Patch0:		%{name}-missing.patch
 Patch1:		%{name}-info.patch
 URL:		http://icps.u-strasbg.fr/~bastoul/development/openscop/
 BuildRequires:	autoconf >= 2.53
 BuildRequires:	automake
 BuildRequires:	gmp-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2
 BuildRequires:	rpm-pythonprov
 BuildRequires:	texinfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -77,7 +77,8 @@ Statyczna biblioteka OpenScop.
 %{__autoconf}
 %{__automake}
 %configure \
-	--disable-silent-rules
+	--disable-silent-rules \
+	%{!?with_static_libs:--disable-static}
 
 %{__make}
 
@@ -86,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libosl.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -101,19 +105,21 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README THANKS
+%doc AUTHORS COPYING ChangeLog README.md THANKS
 %attr(755,root,root) %{_libdir}/libosl.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libosl.so.0
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libosl.so
-%{_libdir}/libosl.la
 %{_includedir}/osl
+%{_pkgconfigdir}/osl.pc
 %dir %{_libdir}/osl
 %{_libdir}/osl/osl-config.cmake
 %{_infodir}/openscop.info*
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libosl.a
+%endif
